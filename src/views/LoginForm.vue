@@ -1,9 +1,9 @@
 <template>
   <div>
-    <form action="">
-      <input type="text" v-model="input.username" placeholder="Email">
-      <input type="password" v-model="input.password" placeholder="Password">
-      <button @click.prevent="login()">Login</button>
+    <form action="" class="form-inline text-center">
+      <input type="text" v-model="input.username" placeholder="Email" class="form-control">
+      <input type="password" v-model="input.password" placeholder="Password"  class="form-control">
+      <button @click.prevent="login()" class="btn btn-info">Login</button>
     </form>
   </div>
 </template>
@@ -34,5 +34,5 @@ export default {
 }
 </script>
 <style scoped>
-
+/*  */
 </style>
