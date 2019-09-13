@@ -1,32 +1,25 @@
 <template>
   <div id="app">
-    <router-link v-if="authenticated" to="/" v-on:click.native="logout()" replace>Logout</router-link>
-    <router-view @authenticated="setAuthenticated" />
+    <button class="btn btn-default" @click.prevent="logout()">Logout</button>
+    <router-view @isLoggedIn="isLoggedIn" />
   </div>
 </template>
 <script>
+import firebase from 'firebase'
 export default {
    data() {
       return {
-          authenticated: false,
-          mockAccount: {
-              username: "noor",
-              password: "passpass"
-          }
+        isLoggedIn: false,
+        currentUser: false
       }
     },
-    mounted() {
-        if(!this.authenticated) {
-            this.$router.replace({ name: "login" });
-        }
-    },
     methods: {
-        setAuthenticated(status) {
-            this.authenticated = status;
-        },
-        logout() {
-            this.authenticated = false;
-        }
+      logout() {
+        firebase.auth().signOut()
+        .then(() => {
+          this.$router.push('/signin')
+        })
+      },
     }
 }
 </script>
