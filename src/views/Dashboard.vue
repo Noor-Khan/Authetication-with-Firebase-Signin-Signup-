@@ -1,5 +1,6 @@
 <template>
     <div>
+        <button @click="$emit('logout')" class="btn btn-info">Logout</button>
         <h2> Dashboard </h2>
         <Sidebar />
 
@@ -8,7 +9,7 @@
 <script>
 import Sidebar from '../components/Sidebar'
 export default {
-    props: ['userData'],
+    props: ['isLogin'],
     components: {
         Sidebar
     }

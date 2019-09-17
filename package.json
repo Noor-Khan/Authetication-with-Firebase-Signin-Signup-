@@ -15,6 +15,7 @@
     "register-service-worker": "^1.6.2",
     "vue": "^2.6.10",
     "vue-firebase": "^1.0.8",
+    "vue-material": "^1.0.0-beta-11",
     "vue-router": "^3.0.3",
     "vue-toast-notification": "^0.0.3",
     "vuex": "^3.0.1",

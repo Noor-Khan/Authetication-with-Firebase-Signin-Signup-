@@ -1,7 +1,6 @@
 <template>
   <div id="app">
-    <button class="btn btn-default" @click.prevent="logout()">Logout</button>
-    <router-view @isLoggedIn="isLoggedIn" />
+    <router-view @logout="logout()" />
   </div>
 </template>
 <script>
