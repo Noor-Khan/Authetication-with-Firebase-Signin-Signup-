@@ -1,22 +1,45 @@
 <template>
   <div id="login">
     <!-- Default form login -->
-    <form class="text-center border border-light p-5" action="#!">
+    <el-form>
         <p class="h4 mb-4">Sign up</p>
         <!-- Email -->
-        <input type="email"  v-model="input.username" id="defaultLoginFormEmail" class="form-control mb-4" placeholder="Username or E-mail" required>
+        <el-form-item >
+          <el-input
+            placeholder="Email"
+            v-model="input.username" required
+            size="medium"
+            clearable>
+          </el-input>
+        </el-form-item>
 
         <!-- Password -->
-        <input type="password" v-model="input.password" id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Password">
-
+        <el-form-item >
+          <el-input
+            placeholder="Password"
+            type="password"
+            v-model="input.password" required
+            size="medium"
+            clearable>
+          </el-input>
+        </el-form-item>
         <!-- Sign in button -->
-        <button class="btn btn-info btn-block my-4" type="submit" @click.prevent="signup()">Sign up</button>
+        <el-form-item>
+          <el-button 
+            style="width:100%"
+            type="primary" 
+            size="medium" 
+            @click.prevent="signup()"
+            :loading="isLoading"
+            native-type="submit"
+          > Sign up </el-button>
+        </el-form-item>
 
         <!-- Register -->
         <p>Already a member?
-            <router-link to="/signin"> Sign in </router-link>
+            <router-link to="/signin"> <el-button type="text" size="medium"> Sign in </el-button></router-link>
         </p>
-    </form>
+    </el-form>
   </div>
 </template>
 <script>
@@ -24,6 +47,7 @@ import firebase from 'firebase'
 export default {
   data() {
     return {
+      isLoading: false,
       input: {
         username: "",
         password: ""
@@ -32,25 +56,26 @@ export default {
   },
   methods: {
     signup() {
+      this.isLoading = true
       firebase.auth().createUserWithEmailAndPassword(this.input.username, this.input.password)
       .then(
         (user) => {
-            this.$toast.open({
-              message: 'Congratualtions! you have successfully registered your account ' + user.user.email ,
-              type: 'success',
-              duration: 5000,
-              position: 'top-right'
-            })
+          this.$notify({
+            title: 'Success',
+            message: 'Congratualtions! you have successfully registered your account ',
+            type: 'success'
+          });
             this.$emit('isLoggedIn', true)
             this.$router.push('/')
+            this.isLoading = false
         },
         (err) => {
-          this.$toast.open({
+          this.$notify({
+            title: 'Error',
             message: 'Oops! ' + err,
-            type: 'error',
-            position: 'top-right',
-            duration: 5000
-            })
+            type: 'error'
+          });        
+          this.isLoading = false
         }
       )
     } 
