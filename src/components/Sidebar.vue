@@ -1,57 +1,100 @@
 <template>
-    <div>    
-        <!-- Side navigation -->
-        <div class="sidenav">
-        <a href="#">About</a>
-        <a href="#">Services</a>
-        <a href="#">Clients</a>
-        <a href="#">Contact</a>
-        </div>
-
-        <!-- Page content -->
-        <div class="main">
-        ...
-        </div>
+    <div>
+        <el-button class="toggleBtn" v-if="isCollapse" @click="collapse(isCollapse)" icon="el-icon-arrow-right" circle></el-button>
+        <el-button class="toggleBtn2" v-else-if="!isCollapse" @click="collapse(isCollapse)" icon="el-icon-arrow-left" circle></el-button>
+        <el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
+        :collapse="isCollapse">
+            <el-menu-item index="1">
+                <i class="el-icon-user"></i>
+                <span slot="title">User Profile</span>
+            </el-menu-item>
+            <el-menu-item index="2">
+                <i class="el-icon-folder"></i>
+                <span slot="title">Documents</span>
+            </el-menu-item>
+            <el-menu-item index="3">
+                <i class="el-icon-bell"></i>
+                <span slot="title">Notifications</span>
+            </el-menu-item>
+            <el-menu-item index="4">
+                <i class="el-icon-unlock"></i>
+                <span slot="title">Privicy</span>
+            </el-menu-item>
+            <el-menu-item index="5">
+                <i class="el-icon-setting"></i>
+                <span slot="title">Settings</span>
+            </el-menu-item>
+            <el-menu-item index="6">
+                <i class="el-icon-bank-card"></i>
+                <span slot="title">Payment Details</span>
+            </el-menu-item>
+            <el-menu-item index="7">
+                <i class="el-icon-coin"></i>
+                <span slot="title">Storage</span>
+            </el-menu-item>
+            <el-menu-item index="8">
+                <i class="el-icon-switch-button"></i>
+                <span slot="title">Logout</span>
+            </el-menu-item>
+        </el-menu>
     </div>
 </template>
 <script>
-export default {
-    
-}
+  export default {
+    data() {
+      return {
+        isCollapse: true,
+      };
+    },
+    methods: {
+      handleOpen(key, keyPath) {
+        console.log(key, keyPath);
+      },
+      handleClose(key, keyPath) {
+        console.log(key, keyPath);
+      },
+      collapse(isCollapse) {
+        if (isCollapse) {
+          this.isCollapse = false
+        } else {
+          this.isCollapse = true;
+        }
+      }
+    }
+  }
 </script>
 <style lang="scss">
-/* The sidebar menu */
-.sidenav {
-  height: 100%; /* Full-height: remove this if you want "auto" height */
-  width: 160px; /* Set the width of the sidebar */
-  position: fixed; /* Fixed Sidebar (stay in place on scroll) */
-  z-index: 1; /* Stay on top */
-  top: 0; /* Stay at the top */
-  left: 0;
-  background-color: #111; /* Black */
-  overflow-x: hidden; /* Disable horizontal scroll */
-  padding-top: 20px;
-    a {
-        padding: 6px 8px 6px 16px;
-        text-decoration: none;
-        font-size: 25px;
-        color: #818181;
-        display: block;
+    .el-menu-vertical-demo:not(.el-menu--collapse) {
+        width: 200px;
+        min-height: 400px;
     }
-    a:hover {
-        color: #f1f1f1;
+    .toggleBtn {
+        position: absolute;
+        z-index: 1;
+        left: 47px;
+        top: 100px;
+        &:focus{
+            outline: none;
+        }
     }
-}
-
-/* Style page content */
-.main {
-  margin-left: 160px; /* Same as the width of the sidebar */
-  padding: 0px 10px;
-}
-
-/* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
-@media screen and (max-height: 450px) {
-  .sidenav {padding-top: 15px;}
-  .sidenav a {font-size: 18px;}
-}
+    .toggleBtn2 {
+        position: absolute;
+        z-index: 1;
+        left: 183px;
+        top: 100px;
+        &:focus{
+            outline: none;
+        }
+    }
+    .el-menu-item {
+        i {
+            font-size: 24px !important;
+        }
+        span {
+            margin-left: 10px;
+        }
+    }
 </style>
+
+
+

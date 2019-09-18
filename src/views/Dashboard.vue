@@ -1,8 +1,8 @@
 <template>
     <div>
-        <el-button type="primary" @click="$emit('logout')">Logout</el-button>
-        <h2> Dashboard </h2>
+
         <Sidebar />
+
 
     </div>
 </template>
