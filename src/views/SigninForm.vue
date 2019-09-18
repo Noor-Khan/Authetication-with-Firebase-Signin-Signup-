@@ -1,36 +1,55 @@
 <template>
   <div id="signin">
     <!-- Default form login -->
-    <form class="text-center border border-light p-5" action="#!">
+    <el-form class="text-center border border-light p-5" action="#!">
         <p class="h4 mb-4">Sign in</p>
         <!-- Email -->
-        <input type="email"  v-model="input.username" id="defaultLoginFormEmail" class="form-control mb-4" placeholder="Username or E-mail" required>
+        <el-form-item >
+          <el-input
+            placeholder="Email"
+            v-model="input.username" required
+            size="medium"
+            clearable>
+          </el-input>
+        </el-form-item>
+        <!-- <input type="email" > -->
 
         <!-- Password -->
-        <input type="password" v-model="input.password" id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Password">
+        <el-form-item>
+          <el-input
+            placeholder="Password"
+            type="password"
+            size="medium"
+            v-model="input.password" required
+            clearable>
+          </el-input>
+        </el-form-item>
 
-        <div class="d-flex justify-content-around">
-            <div>
-                <!-- Remember me -->
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="defaultLoginFormRemember">
-                    <label class="custom-control-label" for="defaultLoginFormRemember">Remember me</label>
-                </div>
-            </div>
-            <div>
-                <!-- Forgot password -->
-                <el-button type="text" @click.prevent="forget()">Forgot password?</el-button>
-            </div>
-        </div>
-
+        <el-form-item>
+          <el-col :span="12">
+            <el-checkbox>Remember Password</el-checkbox>
+          </el-col>
+          <el-col :span="12">
+            <el-button type="text" size="medium" @click.prevent="forget()">Forgot password?</el-button>
+          </el-col>
+        </el-form-item>
         <!-- Sign in button -->
-        <button class="btn btn-info btn-block my-4" type="submit" @click.prevent="login()">Sign in</button>
+        <el-form-item>
+          <el-button 
+            style="width:100%"
+            type="primary" 
+            size="medium" 
+            @click.prevent="login()"
+            :loading="isLoading"
+            native-type="submit"
+          > Sign in</el-button>
+        </el-form-item>
 
         <!-- Register -->
-        <p>Not a member?
-            <router-link to="/signup"> Register </router-link>
+        <p> Not a member?
+            <router-link to="/signup"> <el-button type="text" size="medium"> Register </el-button></router-link>
         </p>
-    </form>
+    </el-form>
   </div>
 </template>
 <script>
@@ -38,6 +57,7 @@ import firebase from 'firebase'
 export default {
   data() {
     return {
+      isLoading:false,
       input: {
         username: "",
         password: ""
@@ -46,45 +66,43 @@ export default {
   },
   methods: {
     login() {
+      this.isLoading = true;
       firebase.auth().signInWithEmailAndPassword(this.input.username, this.input.password)
       .then(
         (user) => {
-          this.$toast.open({
-            message: 'Congratualtions! you have successfully login your account ' + user.user.email,
-            type: 'success',
-            duration: 5000,
-            position: 'top-right'
-            })
+          this.$notify({
+            title: 'Success',
+            message: 'You are now logged in!',
+            type: 'success'
+          });
+          this.isLoading = false;
           this.$router.push('/');
         },
         (err) => {
-          this.$toast.open({
+          this.$notify({
+            title: 'Error',
             message: 'Oops! ' + err,
-            type: 'error',
-            duration: 5000,
-            position: 'top-right'
-          })
+            type: 'error'
+          });
+          this.isLoading = false;
         }
       )
     },
     forget() {
       firebase.auth().sendPasswordResetEmail(this.input.username)
       .then((response) => {
-      this.$toast.open({
-        message: 'Your request for reset password has been sent to you email ' + this.input.email,
-        type: 'success',
-        duration: 5000,
-        position: 'top-right'
-        })
+        this.$notify({
+          title: 'Success',
+          message: 'Your request for reset password has been sent to you email ',
+          type: 'success'
+        });
       },
       (err) =>{
-        this.$toast.open({
-        message: err + ' Please Input your valid email ',
-        type: 'error',
-        duration: 5000,
-        position: 'top-right'
-        })
-      }
+        this.$notify({
+          title: 'Error',
+          message: err + ' Please Input your valid email ',
+          type: 'error'
+        });      }
       )
     }
   }
