@@ -32,7 +32,7 @@
                 <i class="el-icon-coin"></i>
                 <span slot="title">Storage</span>
             </el-menu-item>
-            <el-menu-item index="8">
+            <el-menu-item index="8" @click="logout()">
                 <i class="el-icon-switch-button"></i>
                 <span slot="title">Logout</span>
             </el-menu-item>
@@ -40,6 +40,7 @@
     </div>
 </template>
 <script>
+import firebase from 'firebase'
   export default {
     data() {
       return {
@@ -52,6 +53,13 @@
       },
       handleClose(key, keyPath) {
         console.log(key, keyPath);
+      },
+      logout() {
+          console.log('hello')
+        firebase.auth().signOut()
+            .then(() => {
+                this.$router.push('/signin')
+            })
       },
       collapse(isCollapse) {
         if (isCollapse) {
