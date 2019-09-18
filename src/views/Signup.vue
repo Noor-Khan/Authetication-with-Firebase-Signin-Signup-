@@ -9,26 +9,12 @@
         <!-- Password -->
         <input type="password" v-model="input.password" id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Password">
 
-        <div class="d-flex justify-content-around">
-            <div>
-                <!-- Remember me -->
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="defaultLoginFormRemember">
-                    <label class="custom-control-label" for="defaultLoginFormRemember">Remember me</label>
-                </div>
-            </div>
-            <div>
-                <!-- Forgot password -->
-                <a href="">Forgot password?</a>
-            </div>
-        </div>
-
         <!-- Sign in button -->
         <button class="btn btn-info btn-block my-4" type="submit" @click.prevent="signup()">Sign up</button>
 
         <!-- Register -->
         <p>Already a member?
-            <router-link to="/login"> Sign in </router-link>
+            <router-link to="/signin"> Sign in </router-link>
         </p>
     </form>
   </div>

@@ -19,7 +19,7 @@
             </div>
             <div>
                 <!-- Forgot password -->
-                <a href="">Forgot password?</a>
+                <el-button type="text" @click.prevent="forget()">Forgot password?</el-button>
             </div>
         </div>
 
@@ -66,19 +66,27 @@ export default {
           })
         }
       )
-      // if(this.input.username != "" && this.input.password != "") {
-      //     if(this.input.username == this.$parent.mockAccount.username && this.input.password == this.$parent.mockAccount.password) {
-      //         this.$emit("authenticated", true);
-      //         this.$router.replace({ name: "dashboard" });
-      //     } else {
-      //         console.log("The username and / or password is incorrect");
-      //         alert("Username or Password is icorrect")
-      //     }
-      // } else {
-      //   console.log("A username and password must be present");
-      //   alert("Username or Password is icorrect")
-      // }
-    } 
+    },
+    forget() {
+      firebase.auth().sendPasswordResetEmail(this.input.username)
+      .then((response) => {
+      this.$toast.open({
+        message: 'Your request for reset password has been sent to you email ' + this.input.email,
+        type: 'success',
+        duration: 5000,
+        position: 'top-right'
+        })
+      },
+      (err) =>{
+        this.$toast.open({
+        message: err + ' Please Input your valid email ',
+        type: 'error',
+        duration: 5000,
+        position: 'top-right'
+        })
+      }
+      )
+    }
   }
 }
 </script>
