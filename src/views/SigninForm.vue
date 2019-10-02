@@ -29,10 +29,7 @@
       </el-form-item>
 
       <el-form-item>
-        <el-col :span="12" align="left">
-          <el-checkbox>Remember Password</el-checkbox>
-        </el-col>
-        <el-col :span="12" align="right">
+        <el-col :span="24" align="center">
           <el-button type="text" size="medium" @click.prevent="forget()">Forgot password?</el-button>
         </el-col>
       </el-form-item>
