@@ -1,44 +1,64 @@
 <template>
-  <div id="login">
+  <div id="signup">
     <!-- Default form login -->
     <el-form>
-        <p class="h4 mb-4">Sign up</p>
+      <div class="form-title">
+        <h2 class="h4 mb-4">Sign up</h2>
+      </div>
         <!-- Email -->
-        <el-form-item >
-          <el-input
-            placeholder="Email"
-            v-model="input.username" required
-            size="medium"
-            clearable>
-          </el-input>
-        </el-form-item>
+      <el-form-item >
+        <el-input
+          placeholder="Email"
+          v-model="input.username" required
+          size="medium"
+          clearable>
+        </el-input>
+      </el-form-item>
 
-        <!-- Password -->
-        <el-form-item >
-          <el-input
-            placeholder="Password"
-            type="password"
-            v-model="input.password" required
-            size="medium"
-            clearable>
-          </el-input>
-        </el-form-item>
-        <!-- Sign in button -->
-        <el-form-item>
-          <el-button 
-            style="width:100%"
-            type="primary" 
-            size="medium" 
-            @click.prevent="signup()"
-            :loading="isLoading"
-            native-type="submit"
-          > Sign up </el-button>
-        </el-form-item>
+      <!-- Password -->
+      <el-form-item >
+        <el-input
+          placeholder="Password"
+          type="password"
+          v-model="input.password" required
+          size="medium"
+          clearable>
+        </el-input>
+      </el-form-item>
+      <!-- Sign in button -->
+      <el-form-item>
+        <el-button 
+          style="width:100%"
+          type="primary" 
+          size="medium" 
+          @click.prevent="signup()"
+          :loading="isLoading"
+          native-type="submit"
+        > Sign up </el-button>
+      </el-form-item>
+      <el-form-item>
+        <div class="accounts">
+          <el-col>
+            <el-button size="medium" class="google" @click="signupWithGoogle()">
+              <img src="../assets/icons/google.png" alt="">
+              <p>Continue with Google</p>
+            </el-button>
+          </el-col>
+          <el-col>
+            <el-button size="medium" class="facebook" @click="signupWithGoogle()">
+              <img src="../assets/icons/fb.png" alt="">
+              <p>Continue with Facebook</p>
+            </el-button>
+          </el-col>
+        </div>
+      </el-form-item>
 
-        <!-- Register -->
+      <!-- Register -->
+      <el-form-item>
         <p>Already a member?
             <router-link to="/signin"> <el-button type="text" size="medium"> Sign in </el-button></router-link>
         </p>
+      </el-form-item>
     </el-form>
   </div>
 </template>
@@ -78,20 +98,70 @@ export default {
           this.isLoading = false
         }
       )
-    } 
+    },
+    signupWithGoogle() {
+      let VueParent = this
+      let provider = new firebase.auth.GoogleAuthProvider();
+      firebase.auth().signInWithPopup(provider)
+      .then(
+        (result) => {
+          VueParent.$router.push('/')
+          this.$notify({
+            title: 'Success',
+            message: 'You are now logged in by this email: ' + result.user.email,
+            type: 'success'
+          });
+        },
+        (err) => {
+          console.log(err)
+        }
+      )
+    },
+    signupWithFacebook() {
+      let VueParent = this
+      var provider = new firebase.auth.FacebookAuthProvider();
+      firebase.auth().signInWithPopup(provider)
+      .then(
+        (result) => {
+          VueParent.$router.push('/')
+          this.$notify({
+            title: 'Success',
+            message: 'You are now logged in by this name: ' + result.additionalUserInfo.profile.name,
+            type: 'success'
+          });
+          console.log(result)
+      },
+      (err) => {
+        console.log(err.message)
+      })
+    }
   }
 }
 </script>
 <style lang="scss" scoped>
-#login {
-  margin-top: 10rem;
-}
-#login  form {
+#signup  {
+  margin-top: 8rem;
+  form {
     margin: 0 auto;
     text-align: center;
     width: 30rem;
     box-shadow: 0px 0px 10px #efefef;
     padding: 30px 30px;
+  }
+  .form-title {
+    margin: 20px 0;
+  }
+  .accounts button img {
+    width: 32px;
+  }
+  .accounts button {
+    width: 100%;
+    margin: 5px 0;
+  }
+  .accounts button img, p {
+    display: inline;
+    padding: 5px;
+  }
 }
 
   /* #form-login {

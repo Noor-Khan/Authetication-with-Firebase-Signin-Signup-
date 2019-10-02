@@ -55,11 +55,10 @@ import firebase from 'firebase'
         console.log(key, keyPath);
       },
       logout() {
-          console.log('hello')
         firebase.auth().signOut()
-            .then(() => {
-                this.$router.push('/signin')
-            })
+					.then(() => {
+							this.$router.push('/signin')
+					})
       },
       collapse(isCollapse) {
         if (isCollapse) {
